@@ -63,9 +63,9 @@
 
   </div>
 
-  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxRRY56FaSOGq2JjzR2AFX1cw5fkm4meieVhflW-S54hLiKJjOjKOLueib7_4Jhl6Mmng/exec"; // <-- Ganti URL ini
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyIiGTbTVoTvwlBiWnQTUY7cTYGefhDCMWktsOAM-AC2AvuMge2ercyQtE-nJIJiqMk/exec"; // <-- Ganti URL ini
     
     var html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
     const statusMessage = document.getElementById("status-message");
@@ -92,12 +92,12 @@
       statusMessage.className = 'status-used';
 
       fetch(decodedText)
-        .then(response => response.text())
+        .then(response => response.json()) // Mengubah respons menjadi JSON
         .then(result => {
-          statusMessage.textContent = result;
-          if (result.includes("berhasil")) {
+          statusMessage.textContent = result.message;
+          if (result.status === "success") {
             statusMessage.className = 'status-success';
-          } else if (result.includes("digunakan")) {
+          } else if (result.status === "used") {
             statusMessage.className = 'status-used';
           } else {
             statusMessage.className = 'status-error';
@@ -138,5 +138,4 @@
     window.onload = showScanner;
   </script>
 </body>
-
 </html>
